@@ -1,0 +1,11 @@
+
+<img src="/static/img/logo.png" alt="Logo" class="logo">
+    <ul class="menu">
+        {% for item in menu %}
+            <li><a href="/{{ item.link }}/"> {{ item.name }} </a></li>
+
+        {% endfor %}
+
+        <img src="/static/img/search.png" alt="search" class="search">
+    </ul>
+
