@@ -1,0 +1,12 @@
+
+<img src="/static/img/logo.png" alt="Logo" class="logo">
+    <ul class="menu">
+        {% for item in menu %}
+        {% csrf_token %}
+            <li><a href="/{{ item.link }}/"> {{ item.name }} </a></li>
+
+        {% endfor %}
+        {% include 'mainapp/inc_menu.html' %}
+        <img src="/static/img/search.png" alt="search" class="search">
+    </ul>
+
