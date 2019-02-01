@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static "/style.css" %}">
+    <link rel="stylesheet" href="{% static "/css/bootstrap.min.css" %}">
+</head>
+<body>
+    <div class="container_all">
+       <div class="container_contact">
+        {% include 'mainapp/menu.html' %}
+        {% include 'mainapp/includes/inc_categories_menu.html' %}
+
+    <div class="links clearfix">
+
+      </div>
+
+
+    <h2>Может быть интересно:</h2>
+    <p class="product-list">
+        {% for product in same_products %}
+            <div class="product-list-item">
+            {% if product.image %}
+                <img src='{{ product.image.url }}'>
+            {% endif %}
+            <div>{{ product.name }} ({{ product.category }})</div>
+            <div>{{ product.short_desc }}</div>
+            <div>
+        {% endfor %}
+
+
+           <div class="clearfix"></div>
+    <div class="container_4">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="footer_head">CONTACT US</h3>
+                <p class="footer_address">132A Bridge Road Richmond VIC
+                Australia<br>
+                Talk to us on 1300 132
+                info@interior.com</p>
+            </div>
+            <div class="col-md-4" class="footer_mid">
+                <h3 class="footer_head">USEFUL INFORMATION</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="footer_info_text">
+                        <a href="">SALES TERMS</a><br>
+                        <a href="">CUSTOMER CARE</a><br>
+                        <a href="">DELIVERY</a>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="footer_info_text">
+                        <a href="">ARCHITECT ACCOUNTS</a><br>
+                        <a href="">CAREERS</a><br>
+                        <a href="">EXCHANGE &amp; RETURNS</a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" class="footer_right">
+                <h3 class="footer_head">LETS'S STAY IN TOUCH!</h3>
+                <p class="footer_suscribe">Suscribe to know about our latest news, products and special offers just for suscribers.</p>
+                <form action="">
+                    <input type="text" placeholder="your email address">
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"><p class="copyright">&copy;COPYRIGHT - INTERIOR 2016. ALL RIGHTS RESERVED.</p></div>
+            <div class="col-md-4"><img src="/static/img/social-links.png" alt=""></div>
+            <div class="col-md-4" class="terms_font">TERMS &amp; CONDITIONS/ PRIVACY POLICY &amp; COOKIES</div>
+        </div>
+    </div>
+
+
+
+</div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+</body>
+</html>
