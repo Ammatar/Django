@@ -25,7 +25,7 @@ def users(request):
 
     return render(request, 'adminapp/users.html', content)
 
-
+@user_passes_test(lambda u: u.is_staff)
 def user_create(request):
     title = 'пользователи/создание'
 
@@ -41,7 +41,7 @@ def user_create(request):
 
     return render(request, 'adminapp/user_update.html', content)
 
-
+@user_passes_test(lambda u: u.is_staff)
 def user_update(request, pk):
     title = 'пользователи/редактирование'
 
@@ -58,7 +58,7 @@ def user_update(request, pk):
 
     return render(request, 'adminapp/user_update.html', content)
 
-
+@user_passes_test(lambda u: u.is_staff)
 def user_delete(request, pk):
     def user_delete(request, pk):
         title = 'пользователи/удаление'
@@ -77,19 +77,22 @@ def user_delete(request, pk):
         return render(request, 'adminapp/user_delete.html', content)
 
 
-def categories(request):
-    title = 'админка/категории'
+class ProductCategoryCreateView(CreateView):
+    model = ProductCategory
+    template_name = 'adminapp/category_update.html'
+    success_url = reverse_lazy('adminapp:categories')
+    fields = '__all__'
 
-    categories_list = ProductCategory.objects.all()
+class ProductCategoryListView(ListView):
+    template_name = 'adminapp/categories.html'
+    model = ProductCategory
 
-    content = {
-        'title': title,
-        'objects': categories_list
-    }
-
-    return render(request, 'adminapp/categories.html', content)
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super(ProductCategoryListView, self).dispatch(*args, **kwargs)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def category_create(request):
     title = 'создание новой категории'
 
@@ -107,14 +110,33 @@ def category_create(request):
     return render(request, 'adminapp/category_update.html', context)
 
 
-def category_update(request, pk):
-    pass
+class ProductCategoryUpdateView(UpdateView):
+    model = ProductCategory
+    template_name = 'adminapp/category_update.html'
+    success_url = reverse_lazy('adminapp:categories')
+    fields = '__all__'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductCategoryUpdateView, self). get_context_data(**kwargs)
+        print(context)
+        context['title'] = 'категории/редактирование'
+
+        return context
 
 
-def category_delete(request, pk):
-    pass
+class ProductCategoryDeleteView(DeleteView):
+    model = ProductCategory
+    template_name = 'adminapp/category_delete.html'
+    success_url = reverse_lazy('adminapp:categories')
 
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
 
+        return HttpResponseRedirect(self.get_success_url())
+
+@user_passes_test(lambda u: u.is_staff)
 def products(request, pk):
     title = 'админка/продукт'
 
@@ -129,7 +151,7 @@ def products(request, pk):
 
     return render(request, 'adminapp/products.html', content)
 
-
+@user_passes_test(lambda u: u.is_staff)
 def product_create(request, pk):
     title = 'продукт/создание'
     category = get_object_or_404(ProductCategory, pk=pk)
@@ -149,7 +171,7 @@ def product_create(request, pk):
     return render(request, 'adminapp/product_update.html', content)
 
 
-
+@user_passes_test(lambda u: u.is_staff)
 def product_read(request, pk):
     title = 'продукт/подробнее'
     product = get_object_or_404(Product, pk=pk)
@@ -157,7 +179,7 @@ def product_read(request, pk):
 
     return render(request, 'adminapp/product_read.html', content)
 
-
+@user_passes_test(lambda u: u.is_staff)
 def product_update(request, pk):
     title = 'продукт/редактирование'
 
@@ -178,7 +200,7 @@ def product_update(request, pk):
 
     return render(request, 'adminapp/product_update.html', content)
 
-
+@user_passes_test(lambda u: u.is_staff)
 def product_delete(request, pk):
     title = 'продукт/удаление'
 

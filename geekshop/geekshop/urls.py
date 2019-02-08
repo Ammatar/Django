@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import mainapp.views as mainapp
+from mainapp.views import main, products, base
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls import url
@@ -30,5 +31,6 @@ urlpatterns = [
     path('auth/', include(('authapp.urls', 'authapp'),namespace='auth')),
     path('basket/', include(('basketapp.urls', 'basketapp'), namespace='basket')),
     path('admin/', admin.site.urls),
-    path('adminapp/', include('adminapp.urls', namespace='adminapp'))
+    path('adminapp/', include('adminapp.urls', namespace='adminapp')),
+    url(r'base/', base),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
